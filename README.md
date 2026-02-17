@@ -1,4 +1,5 @@
 # 4_bit_RCA_using_function
+# EXP NP: 4. 4-bit Ripple Carry Adder using Task, and 4-bit Ripple Counter using Function with Testbench
 # Aim
 To design and simulate a 4-bit-Ripple-counter-using-Function-and-4-bit-Ripple-Adder-using-task using Verilog HDL, and verify its functionality through a testbench in the Vivado 2023.1 environment.
 
