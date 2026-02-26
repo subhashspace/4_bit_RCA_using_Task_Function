@@ -18,35 +18,75 @@ Vivado 2023.1
 
 # Verilog Code
 # 4 bit Ripple Adder using Task
-// 4-bit Ripple Carry Adder using Task 
+### 4-bit Ripple Carry Adder using Task 
 ```
-module ripple_adder_task ( input [3:0] A, B, input Cin, output reg [3:0] Sum, output reg Cout ); reg c; integer i;
+
+`timescale 1ns / 1ps
+
+module rca_4_bit ( A, B, cin, sum, cout);
+
+input [3:0] A, B;
+input cin;
+output reg [3:0] sum;
+output reg cout;
+reg c; 
+integer i;
+
 task full_adder;
     input a, b, cin;
     output s, cout;
     begin
-    ///
+        s = a ^ b ^ cin;
+        cout = (a & b) | (b & cin) | (cin & a);
     end
 endtask
 
 always @(*) 
 begin
-    c = Cin;
+    c = cin;
     for (i = 0; i < 4; i = i + 1) begin
-        full_adder(A[i], B[i], c, Sum[i], c);
+        full_adder(A[i], B[i], c, sum[i], c);
     end
-    Cout = c;
+    cout = c;
 end
 endmodule
+
 ```
-Test Bench
+### Test Bench
+```
 
-# Output Waveform
+`timescale 1ns / 1ps
 
-------------------------------PASTE THE OUTPUT---------------------------------
+module rca_4_bit_tb;
+
+reg [3:0] a_t,b_t;
+reg cin_t;
+wire [3:0] sum_t;
+wire cout_t;
+
+rca_4_bit dut (a_t,b_t,cin_t,sum_t,cout_t);
+
+initial
+begin
+    a_t = 4'b1010;
+    b_t = 4'b0110;
+    cin_t = 1'b0;
+    #10;
+    a_t = 4'b0111;
+    b_t = 4'b1100;
+    cin_t = 1'b1;
+    #10;
+    $finish;
+end
+endmodule
+
+```
+### Output Waveform
+
+<img width="1920" height="1200" alt="rca_4_bit" src="https://github.com/user-attachments/assets/18c39a9d-b282-46fd-8f02-ae5f2aed2f4d" />
 
 # 4 bit Ripple counter using Function
-// 4-bit Ripple Counter using Function 
+### 4-bit Ripple Counter using Function 
 ```
 module ripple_counter_func ( input clk, rst, output reg [3:0] Q );
 function [3:0] count;
