@@ -88,23 +88,58 @@ endmodule
 # 4 bit Ripple counter using Function
 ### 4-bit Ripple Counter using Function 
 ```
-module ripple_counter_func ( input clk, rst, output reg [3:0] Q );
-function [3:0] count;
- ///
-endfunction
 
-always @(posedge clk or posedge rst) begin
+`timescale 1ns / 1ps
+
+module ripple_counter_4_bit( clk, rst, Q );
+input clk, rst;
+output reg [3:0] Q;
+always @(posedge clk or posedge rst) 
+begin
     if (rst)
         Q <= 4'b0000;
     else
-        Q <= count(Q);  // use function to increment
+        Q <= count(Q);
 end
-endmodule
-```
-Test Bench
 
-# Output Waveform
-------------------------------PASTE THE OUTPUT---------------------------------
+function [3:0] count;
+input [3:0] q;
+begin
+    count = q +1'b1;
+end
+endfunction
+
+endmodule
+
+```
+### Test Bench
+```
+
+`timescale 1ns / 1ps
+
+module ripple_counter_4_bit_tb;
+
+reg clk_t,rst_t;
+wire [3:0] q_t;
+
+ripple_counter_4_bit dut (clk_t, rst_t, q_t);
+
+initial
+begin
+    rst_t = 1'b1;
+    clk_t = 1'b0;
+    #100;
+    rst_t = 1'b0;
+    #1600;
+    $finish;
+end
+always #50 clk_t = ~clk_t;
+endmodule
+
+```
+### Output Waveform
+
+<img width="1920" height="1200" alt="ripple_counter_4_bit" src="https://github.com/user-attachments/assets/01bdbcb0-16bc-4463-813f-83e7bfb1f3d8" />
 
 # Conclusion
 In this experiment, a 4-bit-Ripple-counter-using-Function-and-4-bit-Ripple-Adder-using-task was successfully designed and simulated using Verilog HDL.
